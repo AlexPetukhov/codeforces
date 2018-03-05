@@ -1,0 +1,65 @@
+#include <iostream>
+// #include <bits/stdc++.h>
+#include <cstdio>
+#include <algorithm>
+#include <math.h>
+#include <vector>
+#include <queue>
+#include <set>
+#include <string>
+#include <map>
+#include <iomanip>
+#include <sstream>
+#include <functional>
+#include <utility>
+#include <stdlib.h>
+#include <stdio.h>
+
+#define re return
+#define fi first
+#define se second
+#define mp make_pair
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
+#define sz(x) ((int) (x).size())
+#define rep(i, n) for (int i = 0; i < (n); i++)
+#define rrep(i, n) for (int i = (n) - 1; i >= 0; i--)
+#define tr(x, y) (x)*(x) + (y)*(y)
+
+using namespace std;
+
+typedef long long ll;
+typedef long double ld;
+typedef pair <int, int> pii;
+typedef vector <int> vi;
+
+const double pi = 3.1415926535897932384626433832795028841971;
+
+
+bool compare(const pair<ll, string>&i, const pair<ll, string>&j)
+{
+    return i.fi > j.fi;
+}
+
+bool ccompare(const pair<int, int>&i, const pair<int, int>&j)
+{
+    return i.se < j.se;
+}
+
+bool ccc(string s,string w){
+	if(s.size() == w.size() )return s > w;
+	return s.size() > w.size();
+}
+
+
+
+int main()
+{
+    // freopen("anagrams.in", "r", stdin);
+    // freopen("anagrams.out", "w", stdout);
+    ios::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+
+
+}
