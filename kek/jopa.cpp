@@ -24,7 +24,6 @@ int main(){
         s[i]=0;
         e[i]=0;
     }
-    fdsasdfasdf
     
     
 }

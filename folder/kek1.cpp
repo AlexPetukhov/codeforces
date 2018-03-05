@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
+#include <iterator>
 #include <math.h>
 #include <vector>
 #include <queue>
@@ -31,8 +32,8 @@ template<class T> T gcd(T a, T b) { ret a ? gcd (b % a, a) : b; }
 template<class T> T sqr(T a) { ret a * a; }
 template<class T> T sgn(T a) { ret a > 0 ? 1 : (a < 0 ? -1 : 0); }
 
-int n, m, k, a ,b, c,ans;
-int d[150],w[150],ti[123];
+int n, m, k, b, c, ans;
+string s;
 int main(){
     // freopen("lewa.in","r",stdin);
     // freopen("tree.out", "w", stdout);
@@ -40,15 +41,11 @@ int main(){
 	cin.tie(0);
     cout.tie(0);
 
-    cin >> n;
-    re(n){
-        rep(j,n){
-            cin >> a;
+    cin >> s;
+    int q = s[1] - '0';
+    int qa = s[0] - 'C';
+    if((q+qa)%2)ret cout <<"BLACK",0;
+    cout << "WHITE";
 
-        }
-    }
-    re(n){
-        cin >> ti[i];
-    }
 
 }
