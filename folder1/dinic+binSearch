@@ -1,0 +1,241 @@
+//NNSU
+#define M7 1000000007
+#define M9 1000000009
+#define MOD 998244353
+#include <iostream>
+#include <cctype>
+#include <cstring>
+#include <cstdio>
+#include <fstream>
+#include <algorithm>
+#include <iterator>
+#include <math.h>
+#include <cmath>
+#include <stdlib.h>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <set>
+#include <regex>
+#include <unordered_set>
+#include <string>
+#include <map>
+#include <iomanip>
+#include <sstream>
+#include <cassert>
+#include <time.h>
+#include <numeric>
+#include <complex>
+ 
+#define ret return
+#define fi first
+#define X first
+#define Y second
+#define se second
+#define mp make_pair
+#define pu push_back
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
+#define sz(x)  ((int) (x).size())
+#define len(x) ((int) (x).length())
+#define rep(i, n) for (int i = 0; i < (n); i++)
+#define rrep(i, n) for (int i = (n) - 1; i >= 0; i--)
+#define tr(x, y) (x)*(x) + (y)*(y)
+#define ttr(x, y) (x)*(x) - (y)*(y)
+#define re(n) for (int i = 0; i < (n); i++)
+#define rej(n) for (int j = 0; j < (n); j++)
+#define ren for (int i = 0; i < (n); i++)
+#define rejn for (int j = 0; j < (n); j++)
+#define read(x) scanf("%d", &x);
+#define makeunique(x) sort(all(x)), (x).resize(unique(all(x)) - (x).begin())
+#define vpbx v.pu(x);
+#define endl '\n'
+#define eb emplace_back
+// #define int long long
+#define pi 3.14159265358979
+#define rpbx(n) for (int i = 0; i < (n); i++) {int x; cin >> x; v.push_back(x);}
+ 
+ 
+using namespace std;
+ 
+#define y1 asjgkhasgka
+#define y0 aiohgasgas
+#define next goas12gisas
+#define left goas1232gisas
+#define right goasgi315sas
+typedef vector<int> vi;
+typedef vector<string> vs;
+typedef vector<vi> vvi;
+typedef pair <int, int> pii;
+typedef vector <pii> vii;
+typedef long long ll;
+typedef vector<ll> vl;
+typedef pair <ll, ll> pll;
+typedef vector<double> vd;
+typedef vector<vl> vvl;
+typedef vector<pair<double,double> > vdd;
+typedef vector<pll> vll;
+typedef long double dbl;
+template<class T> T abs(T x) { ret x > 0 ? x : -x; }
+template<class T> T gcd(T a, T b) { ret a ? gcd (b % a, a) : b; }
+template<class T> T lcm(T a, T b) { ret gcd(a, b) ? (a / gcd(a, b) * b) : 0;}
+template<class T> T sqr(T a) { ret a * a; }
+template<class T> T sgn(T a) { ret a > 0 ? 1 : (a < 0 ? -1 : 0); }
+// template <char d = ' ', class T> ostream& operator << (ostream& out, vector<T>& v){ for(auto& e : v){ out << e << d; } return out; }
+template<class T> ostream& operator<<(ostream &os, const vector<T> &t) { os<<"{"; re(sz(t)- 1) {os<<t[i]<<",";} os<<t[sz(t)-1]; os<<"}"; return os;}
+template<class S, class T> ostream& operator<<(ostream &os, const pair<S,T> &t) { return os<<"("<<t.first<<","<<t.second<<")";}
+
+ 
+const dbl EPS = 1e-9;
+int n,m,k,cur,pr;
+ll sum;
+int ans;
+int a,b,x,y;
+ 
+
+vi v;
+
+
+
+int le,ri;
+vi lef, rig;
+
+struct edge{
+    int y;
+    int f;
+    int c;
+    int cost;
+    edge(){};
+    edge(int y, int c, int cost): y(y), f(0), c(c), cost(cost){}
+};
+vector<edge> e;
+const int MAXN = 1005 * 2 + 3;
+const int N = 1005;
+vvi g(MAXN);
+void add_edge(int x, int y, int c, int cost){
+    g[x].pb(sz(e));
+    e.pb(edge(y, c, cost));
+    g[y].pb(sz(e));
+    e.pb(edge(x, 0, -cost));
+}
+int rem(int x){
+    return e[x].c - e[x].f;
+}
+int s, t;
+vi used(MAXN);
+vector<int> level, ptr;
+queue<int> q;
+bool bfs(int m){
+    while(!q.empty()){
+        int v = q.front();
+        q.pop();
+        for(auto o : g[v]){
+            if(rem(o) < 1) continue;
+            if(level[e[o].y] != -1) continue;
+            if(e[o].cost > m) continue;
+            level[e[o].y] = level[v] + 1;
+            q.push(e[o].y);
+        }
+    }
+    ret level[t] != -1;
+}
+int dfs(int x, int mx, int m){
+    if(mx == 0) ret 0;
+    if(x == t) ret mx;
+    for(int& q = ptr[x]; q < sz(g[x]); q++){
+        int o = g[x][q];
+        int to = e[o].y;
+        if(level[x] + 1 != level[to] || rem(o) < 1) continue;
+        if(e[o].cost > m) continue;
+        int p = dfs(to, min(mx, rem(o)), m);
+        if(p == 0)continue;
+        e[o].f += p;
+        e[o^1].f -= p;
+        ret p;
+    }
+    ret 0;
+}
+
+ll maxflow(int m){
+    ll f = 0;
+    while(1){
+        fill(all(level), -1);
+        level[s] = 0;
+        q.push(s);
+        if(!bfs(m)) break;
+        fill(all(ptr), 0);
+        while(ll p = dfs(s, M9, m)) f += p;
+    }
+    ret f;
+}
+int can(int m){
+    re(sz(e)){
+        e[i].f = 0;
+    }
+    level.assign(MAXN, 0);
+    ptr.assign(MAXN, 0);
+    int flow = maxflow(m);
+    return (flow == sum);
+}
+signed main() {
+    // freopen("lewa.in", "r", stdin);
+    // freopen("output.out", "w", stdout);
+    ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+
+    level.resize(MAXN);
+    ptr.resize(MAXN);
+    s = MAXN - 2;
+    t = MAXN - 1;
+    int mx = -1;
+    cin >> ri >> le >> m;
+    re(ri){
+        int x;
+        cin >> x;
+        rig.pb(x);
+        sum += x;
+    }
+    re(le){
+        int x;
+        cin >> x;
+        lef.pb(x);
+    }
+    re(m){
+        int x,y,c;
+        cin >> x >> y >> c;
+        mx=max(mx,c);
+        y--;
+        x--;
+        x += N;
+        add_edge(y, x, 1e9, c);
+    }
+    re(sz(lef)){
+        add_edge(s, i, lef[i], 0);
+    }
+    re(sz(rig)){
+        add_edge(i + N, t, rig[i], 0);
+    }
+
+    // cout << can(3) << endl;
+    ans = M9;
+    int l = -1;
+    int r = mx + 2;
+    while(r - l > 1){
+        int m = (r+l)>>1;
+        if(can(m)){
+            ans = min(ans, m);
+            r = m;
+        }else l = m;
+    }
+
+    if(ans == M9) ret cout << -1 << endl,0;
+    cout << ans << endl;
+
+
+
+
+
+
+
+}
